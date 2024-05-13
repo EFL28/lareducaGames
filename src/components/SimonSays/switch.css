@@ -1,0 +1,111 @@
+/* $primary: #5628EE;
+$lightGrey: #99A3BA; */
+
+.switch {
+    height: 24px;
+    display: block;
+    position: relative;
+    cursor: pointer;
+
+    input {
+        display: none;
+
+        &+span {
+            padding-left: 50px;
+            min-height: 24px;
+            line-height: 24px;
+            display: block;
+            color: #fff;
+            position: relative;
+            vertical-align: middle;
+            white-space: nowrap;
+            transition: color .3s ease;
+
+            &:before,
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                border-radius: 12px;
+            }
+
+            &:before {
+                top: 0;
+                left: 0;
+                width: 42px;
+                height: 24px;
+                background: #06633c;
+                transition: all .3s ease;
+            }
+
+            &:after {
+                width: 18px;
+                height: 18px;
+                background: #fff;
+                top: 3px;
+                left: 3px;
+                box-shadow: 0 1px 3px rgba(#121621, .1);
+                transition: all .45s ease;
+            }
+
+        }
+
+        &:checked {
+            &+span {
+                /*background activado = bolita a la derecha*/
+                &:before {
+                    background: #06633c;
+                }
+
+                /*Bolita */
+                &:after {
+                    background: #ffffff;
+                    transform: translate(18px, 0);
+                }
+            }
+        }
+    }
+}
+
+/* html {
+    -webkit-font-smoothing: antialiased;
+} */
+
+/* * {
+    box-sizing: border-box;
+
+    &:before,
+    &:after {
+        box-sizing: border-box;
+    }
+} */
+
+/* 
+body {
+    min-height: 100vh;
+    font-family: 'Mukta Malar', Arial;
+    line-height: 22px;
+    font-size: 16px;
+    color: #ADAFB6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .switch {
+        display: table;
+        margin: 12px auto;
+        min-width: 118px;
+    }
+
+    .dribbble {
+        position: fixed;
+        display: block;
+        right: 20px;
+        bottom: 20px;
+
+        img {
+            display: block;
+            height: 28px;
+        }
+    }
+} */

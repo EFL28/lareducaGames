@@ -4,7 +4,7 @@ import * as Tone from "tone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import PianoTiles from "../components/PianoTiles";
+import PianoTiles from "../components/MusicGame/PianoTiles";
 import "../index.css";
 
 
