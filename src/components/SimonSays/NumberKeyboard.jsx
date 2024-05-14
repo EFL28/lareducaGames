@@ -3,7 +3,7 @@ import Response from "./Response";
 
 const NumberKeyboard = ({ handleNumberClick, userResponse }) => {
     const numbers = new Array(10).fill(0);
-    const operations = [".", "-", "="];
+    const operations = [".", "-", "=", 'Delete'];
 
     return (
         <>

@@ -63,6 +63,9 @@ const SimonSays = () => {
         if (gameMode === 'math') {
             if (typeof number === "number" || number === "." || number === "-") {
                 setPlayerAnswer([...playerAnswer, number]);
+            } else if (number === "Delete") {
+                const newPlayerAnswer = playerAnswer.slice(0, -1);
+                setPlayerAnswer(newPlayerAnswer);
             } else {
                 if (number === "=") {
                     const playerResult = eval(playerAnswer.join(""));
@@ -105,6 +108,9 @@ const SimonSays = () => {
                     setPlayerAnswer([] || 0);
                 }
 
+            } else if (element === "Delete") {
+                const newPlayerAnswer = playerAnswer.slice(0, -1);
+                setPlayerAnswer(newPlayerAnswer);
             } else {
                 console.log("Elemento: ", element);
                 const newPlayerAnswer = [...playerAnswer, element];

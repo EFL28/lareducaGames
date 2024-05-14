@@ -16,7 +16,7 @@ const colorMap = {
 };
 
 const PeriodicTable = ({handleElementClick, userResponse}) => {
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Enter'];
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Enter','Delete'];
   return (
     <>
         <div className="numberOptions flex align-middle justify-center">
