@@ -1,0 +1,106 @@
+[
+    {
+        "nombre": "Ácido clorhídrico",
+        "formula": "HCl"
+    },
+    {
+        "nombre": "Ácido sulfúrico",
+        "formula": "H2SO4"
+    },
+    {
+        "nombre": "Ácido nítrico",
+        "formula": "HNO3"
+    },
+    {
+        "nombre": "Ácido cloroso",
+        "formula": "HClO2"
+    },
+    {
+        "nombre": "Ácido clórico",
+        "formula": "HClO3"
+    },
+    {
+        "nombre": "Ácido perclórico",
+        "formula": "HClO4"
+    },
+    {
+        "nombre": "Ácido fosfórico",
+        "formula": "H3PO4"
+    },
+    {
+        "nombre": "Ácido bromhídrico",
+        "formula": "HBr"
+    },
+    {
+        "nombre": "Ácido yodhídrico",
+        "formula": "HI"
+    },
+    {
+        "nombre": "Ácido fluorhídrico",
+        "formula": "HF"
+    },
+    {
+        "nombre": "Cloruro de sodio",
+        "formula": "NaCl"
+    },
+    {
+        "nombre": "Cloruro de calcio",
+        "formula": "CaCl2"
+    },
+    {
+        "nombre": "Sulfato de sodio",
+        "formula": "Na2SO4"
+    },
+    {
+        "nombre": "Nitrato de potasio",
+        "formula": "KNO3"
+    },
+    {
+        "nombre": "Carbonato de calcio",
+        "formula": "CaCO3"
+    },
+    {
+        "nombre": "Sulfato de cobre(II)",
+        "formula": "CuSO4"
+    },
+    {
+        "nombre": "Bicarbonato de sodio",
+        "formula": "NaHCO3"
+    },
+    {
+        "nombre": "Nitrato de plata",
+        "formula": "AgNO3"
+    },
+    {
+        "nombre": "Hidróxido de sodio",
+        "formula": "NaOH"
+    },
+    {
+        "nombre": "Hidróxido de potasio",
+        "formula": "KOH"
+    },
+    {
+        "nombre": "Hidróxido de calcio",
+        "formula": "Ca(OH)2"
+    },
+    {
+        "nombre": "Hidróxido de bario",
+        "formula": "Ba(OH)2"
+    },
+    {
+        "nombre": "Hidróxido de estroncio",
+        "formula": "Sr(OH)2"
+    },
+    {
+        "nombre": "Hidróxido de litio",
+        "formula": "LiOH"
+    },
+    {
+        "nombre": "Hidróxido de cesio",
+        "formula": "CsOH"
+    },
+    {
+        "nombre": "Hidróxido de rubidio",
+        "formula": "RbOH"
+    }
+]

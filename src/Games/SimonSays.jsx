@@ -1,83 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faToggleOff, faToggleOn } from "@fortawesome/free-solid-svg-icons";
 
 import SwitchMode from "../components/SimonSays/SwitchMode";
 import NumberKeyboard from "../components/SimonSays/NumberKeyboard";
 import PeriodicTable from "../components/SimonSays/PeriodicTable";
 
-import acids from "../components/SimonSays/Acids.json";
+import acids from "../components/SimonSays/Chemistry.json";
 
 
 const SimonSays = () => {
-    const switchOn = <FontAwesomeIcon icon={faToggleOn} />;
-    const switchOff = <FontAwesomeIcon icon={faToggleOff} />;
 
     const [sequence, setSequence] = useState([]);
-    const [playerSequence, setPlayerSequence] = useState([]);
+    const [acidFormula, setAcidFormula] = useState("");
+    const [playerAnswer, setPlayerAnswer] = useState([]);
     const [gameMode, setGameMode] = useState("math"); // "math" or "chemistry"
     const [score, setScore] = useState(0);
+    const [result, setResult] = useState(0);
 
     useEffect(() => {
         generateRandomSequence();
+        //console.log("Game mode: ", gameMode)
     }, [gameMode]);
 
-    // const [gameState, setGameState] = useState({
-    //     game: false,
-    //     sequence: [],
-    //     playerSequence: [],
-    //     round: 0,
-    //     score: 0,
-    //     message: "Press Start to Play",
-    // });
-
-    // const startGame = () => {
-    //     setGameState({
-    //         game: true,
-    //         sequence: [],
-    //         playerSequence: [],
-    //         round: 0,
-    //         score: 0,
-    //         message: "Watch the sequence",
-    //     });
-    //     setTimeout(() => {
-    //         nextRound();
-    //     }, 1000);
-    // };
-
-    // const nextRound = () => {
-    //     const newSequence = generateRandomSequence();
-    //     setGameState({
-    //         ...gameState,
-    //         sequence: newSequence,
-    //         playerSequence: [],
-    //         round: gameState.round + 1,
-    //         message: "Watch the sequence",
-    //     });
-    //     playSequence(newSequence);
-    // };
-
-    // const playSequence = (sequence) => {
-    //     sequence.forEach((color, index) => {
-    //         setTimeout(() => {
-    //             playColor(color);
-    //         }, index * 1000);
-    //     });
-    //     setTimeout(() => {
-    //         setGameState({
-    //             ...gameState,
-    //             message: "Repeat the sequence",
-    //         });
-    //     }, sequence.length * 1000);
-    // };
-
-    // const playColor = (color) => {
-    //     const button = document.querySelector(`button[data-color="${color}"]`);
-    //     button.classList.add("active");
-    //     setTimeout(() => {
-    //         button.classList.remove("active");
-    //     }, 500);
-    // };
+    useEffect(() => {
+    }, [playerAnswer]);
 
     const generateRandomSequence = () => {
         if (gameMode === "math") {
@@ -97,10 +42,16 @@ const SimonSays = () => {
                 }
             }
             setSequence(sequence);
+            const result = eval(sequence.join(""));
+            const resultRounded = parseFloat(result.toFixed(2));
+            setResult(resultRounded);
+            console.log("Resultado: ", resultRounded);
         } else {
-            const acid = acids[Math.floor(Math.random() * acids.length)].nombre;
-            console.log(acid);
-            setSequence(acid);
+            const acid = acids[Math.floor(Math.random() * acids.length)];
+            console.log("Acido a resolver", acid.nombre);
+            setAcidFormula(acid.formula);
+            console.log("Formula del acido a resolver", acid.formula);
+            setSequence(acid.nombre);
         }
     };
 
@@ -109,7 +60,59 @@ const SimonSays = () => {
     };
 
     const handleNumberClick = (number) => {
-        console.log(number);
+        if (gameMode === 'math') {
+            if (typeof number === "number" || number === "." || number === "-") {
+                setPlayerAnswer([...playerAnswer, number]);
+            } else {
+                if (number === "=") {
+                    const playerResult = eval(playerAnswer.join(""));
+                    const playerResultRounded = parseFloat(playerResult.toFixed(2));
+
+                    if (playerResultRounded === result) {
+                        //console.log("Correcto");
+                        setScore(prevScore => {
+                            const newScore = prevScore + 1;
+                            return newScore;
+                        });
+                        generateRandomSequence();
+                        setPlayerAnswer([] || 0);
+                    }
+                    else {
+                        console.log("Incorrecto");
+                        setPlayerAnswer([] || 0);
+                    }
+                }
+            }
+        }
+    };
+
+    const handleElementClick = (element) => {
+        if (gameMode === 'chemistry') {
+            if (element === "Enter") {
+                const playerAnswerString = playerAnswer.join("");
+                console.log("Respuesta del jugador: ", playerAnswerString);
+                console.log("Formula del acido: ", acidFormula);
+                if (playerAnswerString === acidFormula) {
+                    console.log("Correcto");
+                    setScore(prevScore => {
+                        const newScore = prevScore + 1;
+                        return newScore;
+                    });
+                    generateRandomSequence();
+                    setPlayerAnswer([] || 0);
+                } else {
+                    console.log("Incorrecto");
+                    setPlayerAnswer([] || 0);
+                }
+
+            } else {
+                console.log("Elemento: ", element);
+                const newPlayerAnswer = [...playerAnswer, element];
+                setPlayerAnswer(newPlayerAnswer);
+                console.log("Respuesta: ", newPlayerAnswer);
+            }
+
+        }
     };
 
     return (
@@ -117,13 +120,12 @@ const SimonSays = () => {
             <div>
                 {/* header */}
                 <SwitchMode handleSwitchMode={handleSwitchMode} />
-
                 {/* Container donde se mostraran las secuencias de operaciones o de formulas quimicas*/}
                 {/* Ademas de mostrar la puntuación */}
                 <div className="border border-black rounded p-5 m-6 relative">
                     {/* Puntuación en la esquina superior derecha */}
                     <div className="absolute top-0 right-0 p-2">
-                        Puntuación:
+                        Puntuación: {score}
                     </div>
 
                     {/* Secuencia en el centro */}
@@ -135,7 +137,7 @@ const SimonSays = () => {
                 </div>
 
                 {/* Container donde se mostrara la tabla periodica (con sus elementos) o un teclado numerico */}
-                {gameMode === "math" ? <NumberKeyboard handleNumberClick={handleNumberClick} /> : <PeriodicTable />}
+                {gameMode === "math" ? <NumberKeyboard handleNumberClick={handleNumberClick} userResponse={playerAnswer} /> : <PeriodicTable handleElementClick={handleElementClick} userResponse={playerAnswer} />}
             </div>
         </>
     );

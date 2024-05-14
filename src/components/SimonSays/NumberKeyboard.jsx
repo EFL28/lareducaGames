@@ -1,9 +1,9 @@
 import React from "react";
 import Response from "./Response";
 
-const NumberKeyboard = ({ handleNumberClick }) => {
+const NumberKeyboard = ({ handleNumberClick, userResponse }) => {
     const numbers = new Array(10).fill(0);
-    const operations = [".", "+", "-", "*", "/"];
+    const operations = [".", "-", "="];
 
     return (
         <>
@@ -31,7 +31,7 @@ const NumberKeyboard = ({ handleNumberClick }) => {
                 ))}
             </div>
 
-            <Response />
+            <Response response={userResponse} />
         </>
 
 
