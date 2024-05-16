@@ -8,7 +8,13 @@ import PeriodicTable from "../components/SimonSays/PeriodicTable";
 import acids from "../components/SimonSays/Chemistry.json";
 
 
+
 const SimonSays = () => {
+    const params = new URLSearchParams(window.location.search);
+    const user_id = params.get('user_id');
+    //console.log("User id: ", user_id);
+    
+
 
     const [sequence, setSequence] = useState([]);
     const [acidFormula, setAcidFormula] = useState("");
@@ -16,7 +22,7 @@ const SimonSays = () => {
     const [gameMode, setGameMode] = useState("math"); // "math" or "chemistry"
     const [score, setScore] = useState(0);
     const [result, setResult] = useState(0);
-    const token = "BtF3Ad3FTJnWolfXzMet0j7uwuevuIeB5DPdPyAEa3f8d4f7"; // toke to authenticate the user
+
 
     useEffect(() => {
         generateRandomSequence();
@@ -125,34 +131,24 @@ const SimonSays = () => {
         }
     };
 
-    const initAuth = async () => {
-        try {
-            const response = await axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
-            console.log("inicio", response);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    
 
 
     const saveScore = async (newScore) => {
-        initAuth();
         try {
-            const response = await axios.post("http://localhost:8000/api/game-results", {
+            const response = await axios.post("http://127.0.0.1:8000/api/game-results", {
                 game_id: 2,
-                user_id: 16,
+                user_id: user_id,
                 score: newScore,
                 start_time: "2023-09-01 14:00:00",
                 end_time: "2023-09-01 14:01:00",
-            },{
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }, withCredentials: true
             });
             console.log(response.data);
         } catch (error) {
             console.error(error.response.data);
-        }
+        } // }finally {
+        //     window.location.href = "http://lareduca2.0.test/games";
+        // }
     }
 
     return (

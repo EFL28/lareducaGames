@@ -12,10 +12,7 @@ const GeoGuesser = () => {
     useEffect(() => {
         generateRandomCountry();
     }, []);
-
-    //console.log("Paises: ",paises.features[0].id);
-
-    //console.log("Paises: ",paises.features);
+    
     const countries = paises.features.map((pais) => {
         return pais.properties.name;
     });
@@ -48,22 +45,38 @@ const GeoGuesser = () => {
         };
     }
 
-
-
-        return (
-            <>
-                <div className="p-4 bg-emerald-400">
-                    <h1 className="font-bold text-center text-3xl">GeoGuesser</h1>
-                </div>
-                <div className="p-4 flex justify-between">
-                    <p className="font-bold text-lg">Contry: {randomCountry}</p>
-                    <p className="font-bold text-lg">Score: {score}</p>
-                </div>
-
-                <GeoGame onCountryClick={onCountryClick} guessedCountry={guessedCountry} />
-
-            </>
-        );
+    const saveScore = async (newScore) => {
+        try {
+            const response = await axios.post("http://127.0.0.1:8000/api/game-results", {
+                game_id: 3,
+                user_id: user_id,
+                score: newScore,
+                start_time: "2023-09-01 14:00:00",
+                end_time: "2023-09-01 14:01:00",
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error.response.data);
+        } finally {
+            window.location.href = "http://lareduca2.0.test/games";
+        }
     }
 
-    export default GeoGuesser;
+
+    return (
+        <>
+            <div className="p-4 bg-emerald-400">
+                <h1 className="font-bold text-center text-3xl">GeoGuesser</h1>
+            </div>
+            <div className="p-4 flex justify-between">
+                <p className="font-bold text-lg">Contry: {randomCountry}</p>
+                <p className="font-bold text-lg">Score: {score}</p>
+            </div>
+
+            <GeoGame onCountryClick={onCountryClick} guessedCountry={guessedCountry} />
+
+        </>
+    );
+}
+
+export default GeoGuesser;
