@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import SwitchMode from "../components/SimonSays/SwitchMode";
 import NumberKeyboard from "../components/SimonSays/NumberKeyboard";
@@ -15,6 +16,7 @@ const SimonSays = () => {
     const [gameMode, setGameMode] = useState("math"); // "math" or "chemistry"
     const [score, setScore] = useState(0);
     const [result, setResult] = useState(0);
+    const token = "BtF3Ad3FTJnWolfXzMet0j7uwuevuIeB5DPdPyAEa3f8d4f7"; // toke to authenticate the user
 
     useEffect(() => {
         generateRandomSequence();
@@ -75,6 +77,7 @@ const SimonSays = () => {
                         //console.log("Correcto");
                         setScore(prevScore => {
                             const newScore = prevScore + 1;
+                            saveScore(newScore);
                             return newScore;
                         });
                         generateRandomSequence();
@@ -96,9 +99,10 @@ const SimonSays = () => {
                 console.log("Respuesta del jugador: ", playerAnswerString);
                 console.log("Formula del acido: ", acidFormula);
                 if (playerAnswerString === acidFormula) {
-                    console.log("Correcto");
+                    //console.log("Correcto");
                     setScore(prevScore => {
                         const newScore = prevScore + 1;
+                        saveScore(newScore);
                         return newScore;
                     });
                     generateRandomSequence();
@@ -120,6 +124,36 @@ const SimonSays = () => {
 
         }
     };
+
+    const initAuth = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/sanctum/csrf-cookie", { withCredentials: true });
+            console.log("inicio", response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    const saveScore = async (newScore) => {
+        initAuth();
+        try {
+            const response = await axios.post("http://localhost:8000/api/game-results", {
+                game_id: 2,
+                user_id: 16,
+                score: newScore,
+                start_time: "2023-09-01 14:00:00",
+                end_time: "2023-09-01 14:01:00",
+            },{
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }, withCredentials: true
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    }
 
     return (
         <>

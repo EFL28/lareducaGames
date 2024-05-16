@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import * as Tone from "tone";
 
@@ -6,12 +7,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import PianoTiles from "../components/MusicGame/PianoTiles";
 import "../index.css";
+import { getCookie } from "../utils/getCookie";
 
+import {jwtDecode} from "jwt-decode";
 
 const MusicGame = () => {
   const [sequence, setSequence] = useState([]);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
   const [currentNote, setCurrentNote] = useState(null);
+  const [score, setScore] = useState(0);
+  const token = "BtF3Ad3FTJnWolfXzMet0j7uwuevuIeB5DPdPyAEa3f8d4f7"; // toke to authenticate the user
+
+  useEffect(() => {
+    const token = getCookie('XSRF-TOKEN'); // Obtener la cookie aquí
+    console.log('Token:', token);
+    
+    
+    if (!token) {
+
+      console.log('no')
+      
+    } else {
+      try {
+        // Si hay una cookie, intenta decodificarla para obtener la información del usuario
+        const decodedToken = atob(token);
+        console.log('Decoded token:', decodedToken);
+
+        //setUser(decodedToken);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        //navigate('');
+      }
+    }
+  }, []);
 
   useEffect(() => {
     generateSequence();
@@ -167,10 +195,29 @@ const MusicGame = () => {
     }
   };
 
+  const saveScore = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/game-results", {
+        game_id: 1,
+        user_id: 16,
+        score: score,
+        start_time: "2023-09-01 14:00:00",
+        end_time: "2023-09-01 14:01:00",
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }, withCredentials: true
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  }
+
 
   // function to check if the user's input matches the sequence
   const checkSequence = (note) => {
-    
+
     //console.log(sequence[currentNoteIndex]);
     if (note === sequence[currentNoteIndex]) {
       // La nota es correcta, pasa a la siguiente nota
@@ -182,6 +229,10 @@ const MusicGame = () => {
         // Aquí puedes hacer algo para indicar que la secuencia fue tocada correctamente
         alert("Secuencia completada correctamente");
         generateSequence();
+        setCurrentNoteIndex(0);
+        const newScore = score + 1;
+        setScore(newScore);
+        saveScore(newScore);
       }
     } else {
       // La nota es incorrecta, reinicia la secuencia
