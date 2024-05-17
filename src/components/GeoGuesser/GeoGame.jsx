@@ -2,7 +2,7 @@ import React from "react";
 
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { geoMercator } from 'd3-geo';
-import worldData from './world.json';
+import worldData from '../Geoguesser/world.json';
 
 
 
