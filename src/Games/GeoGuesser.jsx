@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import paises from "../components/Geoguesser/world.json";
-import GeoGame from "../components/Geoguesser/GeoGame";
+import paises from "../components/GeoGuesser/world.json";
+import GeoGame from "../components/GeoGuesser/GeoGame";
 
 import axios from "axios";
 //import GeoGame from "../components/Geoguesser/GeoGame";
